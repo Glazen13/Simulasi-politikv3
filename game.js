@@ -324,6 +324,41 @@ function initAIMethods() {
   };
 }
 
+function tunjukHari() {
+  const hari = gameState.hari;
+  const sesi = gameState.sesi;
+  
+  document.getElementById('stat-hari').textContent = `Hari ${hari}`;
+  document.getElementById('stat-duit').textContent = `💰 RM ${dapatDuit().toLocaleString()}`;
+  
+  updateProgressBar();
+  
+  const sceneHari = bab1Baru[hari];
+  if (!sceneHari) {
+    tunjukEndingBab1();
+    return;
+  }
+  
+  const scene = sceneHari.sesi[sesi];
+  if (!scene) {
+    tunjukEndingBab1();
+    return;
+  }
+  
+  document.getElementById('narasi').textContent = gantiNama(scene.situasi);
+  document.getElementById('dialog').textContent = gantiNama(scene.dialog);
+  
+  const pilihanDiv = document.getElementById('pilihan');
+  pilihanDiv.innerHTML = '';
+  
+  scene.pilihan.forEach(p => {
+    const btn = document.createElement('button');
+    btn.textContent = gantiNama(p.teks);
+    btn.onclick = () => pilihPilihan(p);
+    pilihanDiv.appendChild(btn);
+  });
+}
+
 // Jalankan menu bila page load
 window.addEventListener('DOMContentLoaded', () => {
   janaMenuTajuk();

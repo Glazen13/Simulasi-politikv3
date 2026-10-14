@@ -166,29 +166,75 @@
       </div>
     </div>
 
-    <!-- SKRIN 6: KEWANGAN -->
+    <!-- ============================================ -->
+    <!-- SKRIN 6: KEWANGAN (PENUH - BARU) -->
+    <!-- ============================================ -->
     <div id="skrin-kewangan" class="skrin">
       <div class="header-skrin">
         <span class="step">Langkah 5 / 6</span>
         <h2>Setup Kewangan</h2>
-        <p class="sub-skrin">Boleh ubah bila-bila masa</p>
+        <p class="sub-skrin">Isi detail. Boleh ubah nanti.</p>
       </div>
-      <div class="form-group">
-        <label>💰 Gaji kau (RM/bulan)</label>
-        <input type="number" id="input-gaji-pemain" value="3000">
+
+      <!-- PENDAPATAN -->
+      <div class="section-kewangan">
+        <h3 class="section-tajuk">👤 Pendapatan</h3>
+        <div class="form-group">
+          <label>Gaji kau (RM/bulan)</label>
+          <input type="number" id="input-gaji-pemain" value="3000">
+        </div>
+        <div class="form-group">
+          <label>Gaji pasangan (RM/bulan)</label>
+          <input type="number" id="input-gaji-pasangan" value="2500">
+        </div>
+        <div class="form-group">
+          <label>Side income (RM/bulan)</label>
+          <input type="number" id="input-side-income" value="0">
+        </div>
       </div>
-      <div class="form-group">
-        <label>💰 Gaji pasangan (RM/bulan)</label>
-        <input type="number" id="input-gaji-pasangan" value="2500">
+
+      <!-- SIMPANAN -->
+      <div class="section-kewangan">
+        <h3 class="section-tajuk">💵 Simpanan</h3>
+        <div class="form-group">
+          <label>Simpanan tunai (RM)</label>
+          <input type="number" id="input-simpanan-tunai" value="2000">
+        </div>
+        <div class="form-group">
+          <label>Simpanan ASB (RM)</label>
+          <input type="number" id="input-simpanan-asb" value="0">
+        </div>
       </div>
-      <div class="form-group">
-        <label>🏦 Simpanan sekarang (RM)</label>
-        <input type="number" id="input-simpanan" value="2000">
+
+      <!-- KOMITMEN -->
+      <div class="section-kewangan">
+        <h3 class="section-tajuk">📋 Komitmen Bulanan</h3>
+        <p class="section-note">Sewa, bil, loan, dll.</p>
+        <div id="komitmen-list"></div>
+        <button class="btn-tambah" onclick="tambahKomitmen()">+ Tambah Komitmen</button>
       </div>
-      <div class="form-group">
-        <label>🏠 Sewa / Loan rumah (RM/bulan)</label>
-        <input type="number" id="input-sewa" value="800">
+
+      <!-- HUTANG -->
+      <div class="section-kewangan">
+        <h3 class="section-tajuk">💳 Hutang</h3>
+        <p class="section-note">PTPTN, kad kredit, dll.</p>
+        <div id="hutang-list"></div>
+        <button class="btn-tambah" onclick="tambahHutang()">+ Tambah Hutang</button>
       </div>
+
+      <!-- GAYA HIDUP -->
+      <div class="section-kewangan">
+        <h3 class="section-tajuk">🏠 Gaya Hidup</h3>
+        <div class="form-group">
+          <label>Pilih gaya hidup</label>
+          <select id="input-gaya-hidup">
+            <option value="jimat">Jimat (RM 40/hari)</option>
+            <option value="sederhana" selected>Sederhana (RM 60/hari)</option>
+            <option value="senang">Senang (RM 100/hari)</option>
+          </select>
+        </div>
+      </div>
+
       <button class="btn-utama" onclick="simpanKewangan()">
         <span>Mula Main</span>
         <span class="btn-arrow">→</span>
@@ -233,6 +279,7 @@
         <div id="narasi" class="narasi-box"></div>
         <div id="dialog" class="dialog-box"></div>
         <div id="pilihan" class="pilihan-box"></div>
+        <div id="log-kewangan" class="log-kewangan"></div>
       </div>
 
     </div>
@@ -241,6 +288,7 @@
 
   <script src="data/setup.js"></script>
   <script src="data/bab1.js"></script>
+  <script src="data/kewangan.js"></script>
   <script src="data/ekonomi.js"></script>
   <script src="data/ai.js"></script>
   <script src="data/ending.js"></script>

@@ -1,184 +1,175 @@
-/* ==========================================================
-   Simulator Parti Politik Malaysia — style.css
-   Mobile-first. Palet: biru malam undi + kuning & merah jalur.
-   ========================================================== */
-:root{
-  --bg:#101a36; --bg2:#0b1226; --card:#18244a; --card2:#202e5c; --line:#2d3d73;
-  --text:#eef1ff; --muted:#9aa8d4; --accent:#2563eb; --gold:#f2c14e; --red:#e5484d;
-  --good:#3ecf8e; --bad:#ff6369; --warn:#f2c14e; --radius:14px;
-  --font:'Segoe UI','Trebuchet MS',system-ui,-apple-system,Roboto,sans-serif;
-  --head:'Georgia','Palatino Linotype',serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;padding:0;background:var(--bg2);color:var(--text);font-family:var(--font);font-size:15px;line-height:1.45}
-body{min-height:100vh;display:flex;justify-content:center}
-#app{width:100%;max-width:520px;min-height:100vh;background:var(--bg);position:relative;box-shadow:0 0 60px rgba(0,0,0,.5)}
-h1,h2,h3,h4{margin:0;font-family:var(--head);font-weight:700;line-height:1.2}
-h2{font-size:1.45rem} h3{font-size:1.1rem} h4{font-size:1rem}
-p{margin:.4em 0}
-small{color:var(--muted)}
-.muted{color:var(--muted)}
-.note{color:var(--muted);font-size:.78rem;text-align:center;margin-top:18px}
 
-/* ---------- skrin ---------- */
-.screen{display:none;padding:18px 16px calc(24px + env(safe-area-inset-bottom));min-height:100vh}
-.screen.active{display:block}
-#s-game.active{display:flex;flex-direction:column;padding:0;height:100vh;height:100dvh}
-
-/* ---------- splash ---------- */
-.splash{display:flex;flex-direction:column;gap:12px;align-items:stretch;text-align:center;padding-top:8vh}
-.splash h1{font-size:2rem;letter-spacing:-.01em}
-.splash .logo{font-size:3.2rem}
-.sub{color:var(--muted);margin:0 0 10px}
-.flagbar{display:flex;height:8px;border-radius:4px;overflow:hidden;margin-bottom:14px}
-.flagbar i{flex:1}
-.flagbar i:nth-child(1){background:var(--red)}
-.flagbar i:nth-child(2){background:#fff}
-.flagbar i:nth-child(3){background:#1d3a8a}
-.flagbar i:nth-child(4){background:var(--gold)}
-
-/* ---------- butang ---------- */
-.btn{display:block;width:100%;border:0;border-radius:12px;padding:13px 16px;font:600 1rem var(--font);color:#fff;background:var(--accent);cursor:pointer;margin-top:10px;transition:transform .08s,filter .15s}
-.btn:active{transform:scale(.98)}
-.btn:hover{filter:brightness(1.1)}
-.btn.big{padding:16px;font-size:1.08rem}
-.btn.sm{padding:9px 12px;font-size:.88rem;margin-top:6px}
-.btn.ghost{background:transparent;border:1.5px solid var(--line);color:var(--text)}
-.btn.gold{background:var(--gold);color:#241a00}
-.btn:disabled{opacity:.4;pointer-events:none}
-.btn:focus-visible,.opt:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
-
-/* ---------- tajuk skrin ---------- */
-.hd{margin:6px 0 14px}
-.hd p{color:var(--muted);margin:4px 0 0}
-
-/* ---------- pilihan kad ---------- */
-.opt{display:block;width:100%;text-align:left;background:var(--card);border:1.5px solid var(--line);color:var(--text);border-radius:var(--radius);padding:14px;margin:10px 0;font:inherit;cursor:pointer;transition:border-color .15s,background .15s}
-.opt b{display:block;font-size:1.02rem;margin-bottom:3px}
-.opt small{display:block;color:var(--muted)}
-.opt:hover{border-color:var(--accent)}
-.opt.sel{border-color:var(--gold);background:var(--card2)}
-.opt .meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
-
-/* ---------- borang ---------- */
-.form{display:grid;gap:12px;margin-top:10px}
-label{display:grid;gap:5px;font-size:.85rem;color:var(--muted);font-weight:600}
-input,select{width:100%;padding:12px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg2);color:var(--text);font:1rem var(--font)}
-input[type=color]{padding:3px;height:46px}
-input[type=range]{padding:0;accent-color:var(--gold)}
-
-/* ---------- kad ---------- */
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin:12px 0}
-.card.hero{border-left:5px solid var(--accent)}
-.card h4{margin-bottom:8px}
-.idcard{text-align:center;border-width:2px}
-.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.tag{background:var(--card2);border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:.78rem;white-space:nowrap}
-.sec{margin:20px 2px 4px;color:var(--gold)}
-.act .row b{font-size:.98rem}
-
-/* ---------- lencana parti ---------- */
-.badge{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-size:1.35rem;flex:none;border:2px solid rgba(255,255,255,.35)}
-.badge.lg{width:64px;height:64px;font-size:2rem;margin:0 auto 8px}
-
-/* ---------- header permainan ---------- */
-#g-head{display:flex;align-items:center;gap:10px;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;background:var(--bg2);border-bottom:2px solid var(--accent);flex:none}
-.hinfo{flex:1;min-width:0}
-.hinfo b{display:block}
-.hinfo small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.chips{display:flex;gap:6px}
-.chip{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:.8rem;font-weight:700;white-space:nowrap}
-
-#g-main{flex:1;overflow-y:auto;padding:4px 14px 20px;-webkit-overflow-scrolling:touch}
-
-/* ---------- navigasi bawah ---------- */
-#g-nav{display:flex;background:var(--bg2);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);flex:none}
-#g-nav button{flex:1;background:none;border:0;color:var(--muted);font:600 .68rem var(--font);padding:8px 2px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
-#g-nav button span{font-size:1.2rem}
-#g-nav button.on{color:var(--gold);box-shadow:inset 0 3px 0 var(--accent)}
-
-/* ---------- statistik ---------- */
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.stat{background:var(--bg2);border-radius:10px;padding:10px}
-.stat small{display:block;font-size:.72rem}
-.stat b{font-size:1.08rem}
-.bar{margin:9px 0}
-.bl{display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:3px}
-.bt{height:8px;background:var(--bg2);border-radius:6px;overflow:hidden}
-.bt i{display:block;height:100%;border-radius:6px;transition:width .5s}
-.apbox{background:var(--card2);border-radius:12px;padding:10px 12px;margin:12px 0 0;font-size:.9rem}
-
-/* ---------- Dewan Rakyat ---------- */
-.seatbar{display:flex;height:22px;border-radius:6px;overflow:hidden;background:var(--bg2);margin:8px 0}
-.seatbar i{display:block;height:100%}
-.legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:.78rem;color:var(--muted)}
-.legend span{display:inline-flex;align-items:center;gap:5px}
-.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
-
-/* ---------- senarai log / lejar ---------- */
-.li{padding:9px 0;border-bottom:1px solid var(--line);font-size:.86rem}
-.li:last-child{border:0}
-.li small{display:block}
-.pos{color:var(--good)} .neg{color:var(--bad)}
-.d{display:inline-block;border-radius:6px;padding:2px 8px;margin:3px 4px 0 0;font-size:.78rem;font-weight:700}
-.d.up{background:rgba(62,207,142,.16);color:var(--good)}
-.d.dn{background:rgba(255,99,105,.16);color:var(--bad)}
-.deltas{margin:10px 0}
-
-/* ---------- misi & pencapaian ---------- */
-.ach{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
-.ach.lock{opacity:.4}
-.medal{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:1rem;flex:none}
-.m-Gangsa{background:#9a6a3a}.m-Perak{background:#a9b4c8;color:#111}.m-Emas{background:var(--gold);color:#241a00}
-.m-Platinum{background:#7fe3e0;color:#062}.m-Legenda{background:linear-gradient(135deg,#f2c14e,#e5484d)}.m-Amaran{background:var(--red)}
-.done{color:var(--good);font-weight:700}
-
-/* ---------- modal ---------- */
-#modal{position:fixed;inset:0;background:rgba(5,9,20,.72);display:none;align-items:flex-end;justify-content:center;z-index:50}
-#modal.open{display:flex}
-#modal-card{width:100%;max-width:520px;max-height:90vh;max-height:90dvh;overflow-y:auto;background:var(--card);border-radius:20px 20px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));border-top:3px solid var(--accent);animation:up .22s ease-out}
-@keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
-#modal-body h3{margin-bottom:6px}
-.sev{color:var(--gold);letter-spacing:2px}
-.cat{display:inline-block;background:var(--accent);border-radius:6px;padding:2px 8px;font-size:.74rem;font-weight:700;margin-bottom:6px}
-
-/* ---------- toast ---------- */
-#toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);background:var(--gold);color:#241a00;font-weight:700;padding:10px 16px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s;z-index:60;max-width:90%;text-align:center}
-#toast.show{opacity:1;transform:translate(-50%,0)}
-
-/* ---------- kalendar ---------- */
-.cal{display:flex;gap:10px;align-items:baseline}
-.cal b{min-width:92px;font-size:.82rem;color:var(--gold)}
-
-/* ---------- pilihan raya ---------- */
-.step{display:flex;gap:6px;margin:0 0 12px}
-.step i{flex:1;height:5px;border-radius:4px;background:var(--line)}
-.step i.on{background:var(--gold)}
-.big-num{font-family:var(--head);font-size:2.4rem;font-weight:700}
-
-@media (min-width:521px){
-  #app{margin:16px 0;min-height:calc(100vh - 32px);border-radius:20px;overflow:hidden}
-  #s-game.active{height:calc(100vh - 32px)}
+body {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  color: #333;
 }
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
+#app {
+  width: 100%;
+  max-width: 500px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  overflow: hidden;
+  min-height: 600px;
+  position: relative;
+}
 
-/* v4 additions: setup identity, uploads, policy, constituency and government hub */
-#g-nav{overflow-x:auto;justify-content:flex-start;scrollbar-width:thin}
-#g-nav button{flex:0 0 58px;min-width:58px;font-size:.62rem}
-.form .wide{grid-column:1/-1}
-.setup-section{margin:18px 0 8px;padding:12px;border:1px solid var(--line);border-radius:14px;background:rgba(8,15,35,.35)}
-.setup-section h3{margin-bottom:8px;color:var(--gold)}
-.upload-preview{display:flex;align-items:center;gap:12px;margin-top:8px}
-.upload-preview img{width:72px;height:72px;object-fit:cover;border-radius:12px;border:1px solid var(--line);background:var(--bg2)}
-.upload-preview img.round{border-radius:50%}
-.policy-grid{display:grid;grid-template-columns:1fr;gap:10px}
-.portrait-small{width:38px;height:38px;object-fit:cover;border-radius:50%;border:2px solid var(--accent)}
-.seat-list{display:grid;grid-template-columns:1fr;gap:6px;max-height:250px;overflow:auto;padding:4px}
-.seat-option{display:block;text-align:left;padding:10px;border-radius:9px;background:var(--bg2);border:1px solid var(--line);color:var(--text)}
-.seat-option:focus,.seat-option:hover{border-color:var(--accent)}
-.notice{border-left:3px solid var(--gold);padding:8px 10px;background:var(--card2);border-radius:8px;font-size:.83rem}
-#modal{z-index:100}
-@media(min-width:700px){#app{max-width:900px}.screen{padding-left:28px;padding-right:28px}.form{grid-template-columns:1fr 1fr}.policy-grid{grid-template-columns:1fr 1fr}#g-nav button{flex:1;font-size:.72rem}}
-/* Energy/AP was removed as a gameplay restriction; actions remain available. */
-.apbox{display:none!important}
+.skrin {
+  display: none;
+  padding: 30px;
+  flex-direction: column;
+  gap: 15px;
+  height: 100%;
+  min-height: 600px;
+}
+
+.skrin.active {
+  display: flex;
+}
+
+h1 {
+  font-size: 2em;
+  text-align: center;
+  color: #764ba2;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 1.4em;
+  text-align: center;
+  color: #764ba2;
+  margin-bottom: 20px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #888;
+  margin-bottom: 30px;
+}
+
+button {
+  padding: 15px 20px;
+  font-size: 1em;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  font-weight: 500;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(118, 75, 162, 0.3);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+input {
+  padding: 12px 15px;
+  font-size: 1em;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  transition: border 0.2s;
+}
+
+input:focus {
+  outline: none;
+  border-color: #764ba2;
+}
+
+label {
+  font-size: 0.9em;
+  color: #555;
+  margin-top: 10px;
+}
+
+/* Skrin Main */
+#skrin-main {
+  padding: 0;
+  justify-content: space-between;
+}
+
+#header-stat {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 20px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  font-size: 0.9em;
+  font-weight: 600;
+}
+
+#kandungan {
+  padding: 25px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+#narasi {
+  font-style: italic;
+  color: #666;
+  margin-bottom: 20px;
+  line-height: 1.6;
+  padding: 15px;
+  background: #f8f8f8;
+  border-left: 4px solid #764ba2;
+  border-radius: 8px;
+}
+
+#dialog {
+  font-size: 1.1em;
+  margin-bottom: 25px;
+  line-height: 1.7;
+  color: #333;
+}
+
+#pilihan {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#pilihan button {
+  text-align: left;
+  background: #f0f0f0;
+  color: #333;
+  font-size: 0.95em;
+  padding: 15px;
+}
+
+#pilihan button:hover {
+  background: #e0e0e0;
+  box-shadow: none;
+}
+
+#footer-stat {
+  display: flex;
+  justify-content: space-around;
+  padding: 15px;
+  background: #f8f8f8;
+  border-top: 1px solid #eee;
+  font-size: 0.9em;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  body { padding: 0; }
+  #app { border-radius: 0; min-height: 100vh; }
+  .skrin { min-height: 100vh; }
+}

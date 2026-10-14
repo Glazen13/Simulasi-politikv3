@@ -1,60 +1,110 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#101a36">
-<title>Simulator Parti Politik Malaysia</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hingga ke Jannah</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div id="app">
 
-<div id="app">
-
-  <!-- SKRIN 1: PERMULAAN -->
-  <section id="s-start" class="screen active">
-    <div class="splash">
-      <div class="flagbar" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-      <div class="logo">🏛️</div>
-      <h1>Simulator Parti Politik Malaysia</h1>
-      <p class="sub">Urus parti, hadapi krisis, tempuh PRU dan bentuk kerajaan. Rujukan konsep: Kempen 222.</p>
-      <button class="btn big" data-act="newgame">Main baharu</button>
-      <button class="btn ghost big" id="btn-continue" data-act="cont" hidden>Sambung permainan</button>
-      <button class="btn ghost" data-act="about">Cara bermain</button>
-      <p class="note">Versi 3.0. Angka, calon dan berita dalam simulasi ialah data rekaan atau anggaran kecuali dinyatakan. Ini bukan sumber rasmi.</p>
+    <!-- SKRIN 1: TAJUK -->
+    <div id="skrin-tajuk" class="skrin active">
+      <h1>Hingga ke Jannah</h1>
+      <p class="subtitle">Simulasi Kehidupan Suami Isteri</p>
+      <button onclick="mulaSetup()">Mula</button>
     </div>
-  </section>
 
-  <!-- SKRIN 2-5: MOD, LALUAN, BORANG, PENGESAHAN (dijana oleh script.js) -->
-  <section id="s-mode" class="screen"></section>
-  <section id="s-path" class="screen"></section>
-  <section id="s-setup" class="screen"></section>
-  <section id="s-confirm" class="screen"></section>
+    <!-- SKRIN 2: PILIH MOD -->
+    <div id="skrin-mod" class="skrin">
+      <h2>Kau nak main sebagai siapa?</h2>
+      <button onclick="pilihMod('suami')">👨 Suami</button>
+      <button onclick="pilihMod('isteri')">👩 Isteri</button>
+    </div>
 
-  <!-- SKRIN 6: PERMAINAN UTAMA -->
-  <section id="s-game" class="screen">
-    <header id="g-head"></header>
-    <main id="g-main"></main>
-    <nav id="g-nav" aria-label="Menu utama">
-      <button data-act="tab" data-v="home"><span>🏠</span>Utama</button>
-      <button data-act="tab" data-v="act"><span>📣</span>Tindakan</button>
-      <button data-act="tab" data-v="gov"><span>🏛️</span>Kerajaan</button>
-      <button data-act="tab" data-v="money"><span>💰</span>Wang</button>
-      <button data-act="tab" data-v="party"><span>🚩</span>Parti</button>
-      <button data-act="tab" data-v="world"><span>🌏</span>Dunia</button>
-      <button data-act="tab" data-v="mis"><span>🎯</span>Misi</button>
-      <button data-act="pause"><span>⏸️</span>Menu</button>
-    </nav>
-  </section>
+    <!-- SKRIN 3: NAMA -->
+    <div id="skrin-nama" class="skrin">
+      <h2>Nama & Panggilan</h2>
+      <label>Nama penuh kau:</label>
+      <input type="text" id="input-nama-pemain" placeholder="Contoh: Aiman">
+      
+      <label>Panggilan manja kau:</label>
+      <input type="text" id="input-panggilan-pemain" placeholder="Contoh: Abang">
+      
+      <label>Nama penuh pasangan:</label>
+      <input type="text" id="input-nama-pasangan" placeholder="Contoh: Aisyah">
+      
+      <label>Panggilan manja pasangan:</label>
+      <input type="text" id="input-panggilan-pasangan" placeholder="Contoh: Sayang">
+      
+      <button onclick="simpanNama()">Seterusnya</button>
+    </div>
 
-  <!-- SKRIN 7: PILIHAN RAYA -->
-  <section id="s-election" class="screen"></section>
+    <!-- SKRIN 4: PERSONALITI -->
+    <div id="skrin-personaliti" class="skrin">
+      <h2>Personaliti Pasangan</h2>
+      <button onclick="pilihPersonaliti('romantik')">🌹 Romantik</button>
+      <button onclick="pilihPersonaliti('manja')">🥺 Manja</button>
+      <button onclick="pilihPersonaliti('cool')">😎 Cool</button>
+      <button onclick="pilihPersonaliti('rajin')">💪 Rajin</button>
+      <button onclick="pilihPersonaliti('rawak')">🎲 Rawak</button>
+    </div>
 
-</div>
+    <!-- SKRIN 5: TITIK MULA -->
+    <div id="skrin-titik-mula" class="skrin">
+      <h2>Korang nak mula dari mana?</h2>
+      <button onclick="pilihTitikMula('sewa')">🏠 Rumah Sewa Sendiri</button>
+      <button onclick="pilihTitikMula('ibubapa')">👨‍👩‍👧 Rumah Ibu Bapa</button>
+      <button onclick="pilihTitikMula('mertua')">👵 Rumah Mertua</button>
+      <button onclick="pilihTitikMula('sendiri')">🏡 Rumah Sendiri</button>
+    </div>
 
-<div id="modal"><div id="modal-card"><div id="modal-body"></div></div></div>
-<div id="toast" role="status"></div>
+    <!-- SKRIN 6: KEWANGAN -->
+    <div id="skrin-kewangan" class="skrin">
+      <h2>Setup Kewangan</h2>
+      <label>Gaji kau (RM/bulan):</label>
+      <input type="number" id="input-gaji-pemain" value="3000">
+      
+      <label>Gaji pasangan (RM/bulan):</label>
+      <input type="number" id="input-gaji-pasangan" value="2500">
+      
+      <label>Simpanan sekarang (RM):</label>
+      <input type="number" id="input-simpanan" value="2000">
+      
+      <label>Sewa/loan rumah (RM/bulan):</label>
+      <input type="number" id="input-sewa" value="800">
+      
+      <button onclick="simpanKewangan()">Mula Main</button>
+    </div>
 
-<script src="script.js"></script>
+    <!-- SKRIN 7: MAIN -->
+    <div id="skrin-main" class="skrin">
+      <div id="header-stat">
+        <span id="stat-hari">Hari 1</span>
+        <span id="stat-tenaga">⚡ 3/3</span>
+        <span id="stat-duit">💰 RM 0</span>
+      </div>
+      
+      <div id="kandungan">
+        <div id="narasi"></div>
+        <div id="dialog"></div>
+        <div id="pilihan"></div>
+      </div>
+      
+      <div id="footer-stat">
+        <span id="stat-kasih">❤️ 50</span>
+        <span id="stat-mood">😊 Neutral</span>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="data/setup.js"></script>
+  <script src="data/bab1.js"></script>
+  <script src="data/ekonomi.js"></script>
+  <script src="data/ai.js"></script>
+  <script src="data/ending.js"></script>
+  <script src="game.js"></script>
 </body>
 </html>

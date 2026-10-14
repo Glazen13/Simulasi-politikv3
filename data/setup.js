@@ -1,6 +1,9 @@
-// Setup data untuk game
+// ================================
+// SETUP DATA UNTUK GAME
+// ================================
+
 let gameState = {
-  mod: null,           // 'suami' atau 'isteri'
+  mod: null,
   namaPemain: '',
   panggilanPemain: '',
   namaPasangan: '',
@@ -17,6 +20,24 @@ let gameState = {
   history: []
 };
 
+// ================================
+// FUNGSI TUKAR SKRIN
+// ================================
+
+function tukarSkrin(id) {
+  document.querySelectorAll('.skrin').forEach(s => s.classList.remove('active'));
+  const skrin = document.getElementById(id);
+  if (skrin) {
+    skrin.classList.add('active');
+  } else {
+    console.error('Skrin tak jumpa:', id);
+  }
+}
+
+// ================================
+// FUNGSI SETUP
+// ================================
+
 function mulaSetup() {
   tukarSkrin('skrin-mod');
 }
@@ -24,13 +45,10 @@ function mulaSetup() {
 function pilihMod(mod) {
   gameState.mod = mod;
   
-  // Set panggilan ikut mod
   if (mod === 'suami') {
-    // Pemain = suami, AI = isteri
     document.getElementById('input-panggilan-pemain').placeholder = 'Contoh: Abang';
     document.getElementById('input-panggilan-pasangan').placeholder = 'Contoh: Sayang';
   } else {
-    // Pemain = isteri, AI = suami
     document.getElementById('input-panggilan-pemain').placeholder = 'Contoh: Sayang';
     document.getElementById('input-panggilan-pasangan').placeholder = 'Contoh: Abang';
   }
@@ -59,7 +77,6 @@ function pilihPersonaliti(p) {
 function pilihTitikMula(t) {
   gameState.titikMula = t;
   
-  // Set default kewangan ikut titik mula
   const defaults = {
     sewa:    { gajiPemain: 3000, gajiPasangan: 2500, simpanan: 2000, sewa: 800 },
     ibubapa: { gajiPemain: 3000, gajiPasangan: 2500, simpanan: 3500, sewa: 300 },
@@ -85,14 +102,6 @@ function simpanKewangan() {
     komitmen: []
   };
   
-  // Initialize AI
   initAI();
-  
-  // Mula main
   mulaMain();
-}
-
-function tukarSkrin(id) {
-  document.querySelectorAll('.skrin').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
 }

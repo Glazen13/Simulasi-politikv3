@@ -136,4 +136,16 @@ function tunjukEndingBab1() {
   document.getElementById('narasi').textContent = '📖 Bab 1 Tamat';
   document.getElementById('dialog').innerHTML = `
     ❤️ Kasih sayang: ${aiPasangan.kasihSayang}<br>
-    😊 Mood:
+    😊 Mood: ${aiPasangan.labelMood()}<br>
+    💰 Duit: RM ${dapatDuit().toLocaleString()}<br>
+    <br>
+    Bab 2: Rutin & Realiti akan datang...
+  `;
+  
+  const pilihanDiv = document.getElementById('pilihan');
+  pilihanDiv.innerHTML = '';
+  const btn = document.createElement('button');
+  btn.textContent = '🔄 Main Lagi';
+  btn.onclick = () => location.reload();
+  pilihanDiv.appendChild(btn);
+}

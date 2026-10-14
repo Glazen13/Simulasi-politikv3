@@ -7,24 +7,20 @@ let sceneSemasa = null;
 // ================================
 // PROGRESS BAR
 // ================================
+
 function updateProgressBar() {
-  // Kasih sayang
   document.getElementById('bar-kasih').style.width = aiPasangan.kasihSayang + '%';
   document.getElementById('stat-kasih').textContent = aiPasangan.kasihSayang;
   
-  // Komunikasi
   document.getElementById('bar-komunikasi').style.width = aiPasangan.komunikasi + '%';
   document.getElementById('stat-komunikasi').textContent = aiPasangan.komunikasi;
   
-  // Kepercayaan
   document.getElementById('bar-kepercayaan').style.width = aiPasangan.kepercayaan + '%';
   document.getElementById('stat-kepercayaan').textContent = aiPasangan.kepercayaan;
   
-  // Mood diri
   document.getElementById('bar-mood-diri').style.width = aiPasangan.moodDiri + '%';
   document.getElementById('stat-mood-diri').textContent = aiPasangan.moodDiri;
   
-  // Mood AI
   document.getElementById('bar-mood-ai').style.width = aiPasangan.mood + '%';
   document.getElementById('stat-mood-ai').textContent = '🙂 Mood AI: ' + aiPasangan.labelMood();
 }
@@ -36,37 +32,47 @@ function updateProgressBar() {
 function mulaMain() {
   tukarSkrin('skrin-main');
   gameState.hari = 1;
-  gameState.tenagaAksi = 3;
-  gameState.tenagaMax = 3;
+  gameState.sesi = 0;
   tunjukHari();
 }
 
 // ================================
-// TUNJUK HARI
+// TUNJUK HARI (SATU SAHAJA)
 // ================================
 
 function tunjukHari() {
   const hari = gameState.hari;
-  const scene = bab1[hari];
+  const sesi = gameState.sesi || 0;
   
   document.getElementById('stat-hari').textContent = `Hari ${hari}`;
-  document.getElementById('stat-tenaga').textContent = `⚡ ${gameState.tenagaAksi}/${gameState.tenagaMax}`;
   document.getElementById('stat-duit').textContent = `💰 RM ${dapatDuit().toLocaleString()}`;
   
   updateProgressBar();
   
+  const sceneHari = bab1Baru[hari];
+  if (!sceneHari) {
+    tunjukEndingBab1();
+    return;
+  }
+  
+  const scene = sceneHari.sesi[sesi];
   if (!scene) {
     tunjukEndingBab1();
     return;
   }
   
-  if (scene.jenis === 'ringkasan') {
-    tunjukRingkasan(scene);
-  } else if (scene.jenis === 'mini') {
-    tunjukMiniEvent(scene);
-  } else {
-    tunjukScene(scene);
-  }
+  document.getElementById('narasi').textContent = gantiNama(scene.situasi);
+  document.getElementById('dialog').textContent = gantiNama(scene.dialog);
+  
+  const pilihanDiv = document.getElementById('pilihan');
+  pilihanDiv.innerHTML = '';
+  
+  scene.pilihan.forEach(p => {
+    const btn = document.createElement('button');
+    btn.textContent = gantiNama(p.teks);
+    btn.onclick = () => pilihPilihan(p);
+    pilihanDiv.appendChild(btn);
+  });
 }
 
 // ================================
@@ -77,25 +83,6 @@ function gantiNama(teks) {
   return teks
     .replace(/{pemain}/g, gameState.panggilanPemain)
     .replace(/{pasangan}/g, gameState.panggilanPasangan);
-}
-
-// ================================
-// TUNJUK SCENE
-// ================================
-
-function tunjukScene(scene) {
-  document.getElementById('narasi').textContent = gantiNama(scene.narasi);
-  document.getElementById('dialog').textContent = gantiNama(scene.dialog());
-  
-  const pilihanDiv = document.getElementById('pilihan');
-  pilihanDiv.innerHTML = '';
-  
-  scene.pilihan.forEach((p) => {
-    const btn = document.createElement('button');
-    btn.textContent = gantiNama(p.teks);
-    btn.onclick = () => pilihPilihan(p);
-    pilihanDiv.appendChild(btn);
-  });
 }
 
 // ================================
@@ -122,7 +109,6 @@ function pilihPilihan(pilihan) {
   
   simpanGame();
   
-  // Sesi seterusnya
   const pilihanDiv = document.getElementById('pilihan');
   pilihanDiv.innerHTML = '';
   const btn = document.createElement('button');
@@ -131,12 +117,17 @@ function pilihPilihan(pilihan) {
   pilihanDiv.appendChild(btn);
 }
 
+// ================================
+// SESI SETERUSNYA
+// ================================
+
 function sesiSeterusnya() {
   gameState.sesi++;
   if (gameState.sesi >= 4) {
     gameState.sesi = 0;
     gameState.hari++;
   }
+  simpanGame();
   tunjukHari();
 }
 
@@ -193,11 +184,8 @@ function tunjukMiniEvent(scene) {
 
 function hariSeterusnya() {
   gameState.hari++;
-  gameState.tenagaAksi = gameState.tenagaMax;
-  
-  // AUTO-SAVE selepas hari baru
+  gameState.sesi = 0;
   simpanGame();
-  
   tunjukHari();
 }
 
@@ -209,7 +197,10 @@ function tunjukEndingBab1() {
   document.getElementById('narasi').textContent = '📖 Bab 1 Tamat';
   document.getElementById('dialog').innerHTML = `
     ❤️ Kasih sayang: ${aiPasangan.kasihSayang}<br>
-    😊 Mood: ${aiPasangan.labelMood()}<br>
+    💬 Komunikasi: ${aiPasangan.komunikasi}<br>
+    🤝 Kepercayaan: ${aiPasangan.kepercayaan}<br>
+    😊 Mood Diri: ${aiPasangan.moodDiri}<br>
+    🙂 Mood AI: ${aiPasangan.labelMood()}<br>
     💰 Duit: RM ${dapatDuit().toLocaleString()}<br>
     <br>
     Bab 2: Rutin & Realiti akan datang...
@@ -222,6 +213,7 @@ function tunjukEndingBab1() {
   btn.onclick = () => location.reload();
   pilihanDiv.appendChild(btn);
 }
+
 // ================================
 // MENU TAJUK
 // ================================
@@ -233,28 +225,24 @@ function janaMenuTajuk() {
   const infoSave = dapatkanInfoSave();
   
   if (infoSave) {
-    // Ada save — tunjuk butang Sambung
     const btnSambung = document.createElement('button');
     btnSambung.className = 'btn-utama';
     btnSambung.innerHTML = `<span>▶ Sambung</span><span class="btn-arrow">→</span>`;
     btnSambung.onclick = sambungGame;
     menu.appendChild(btnSambung);
     
-    // Info save
     const info = document.createElement('div');
     info.className = 'info-save';
     const tarikh = new Date(infoSave.timestamp).toLocaleDateString('ms-MY');
     info.textContent = `${infoSave.namaPemain} • Hari ${infoSave.hari} • ${tarikh}`;
     menu.appendChild(info);
     
-    // Butang Main Baru
     const btnBaru = document.createElement('button');
     btnBaru.className = 'btn-sekunder';
     btnBaru.textContent = '🆕 Main Baru';
     btnBaru.onclick = mainBaru;
     menu.appendChild(btnBaru);
   } else {
-    // Takde save — tunjuk butang Mula
     const btnMula = document.createElement('button');
     btnMula.className = 'btn-utama';
     btnMula.innerHTML = `<span>Mula Perjalanan</span><span class="btn-arrow">→</span>`;
@@ -265,7 +253,6 @@ function janaMenuTajuk() {
 
 function sambungGame() {
   if (loadGame()) {
-    // Re-init AI methods
     initAIMethods();
     tukarSkrin('skrin-main');
     tunjukHari();
@@ -286,24 +273,24 @@ function mainBaru() {
 }
 
 function initAIMethods() {
-  // Pastikan method AI wujud selepas load
-  aiPasangan.reaksi = function(pilihan, kesan) {
-    this.updateMood(kesan.mood || 0);
-    this.updateKasihSayang(kesan.kasihSayang || 0);
-    if (kesan.kasihSayang > 0) {
-      this.rekodMemori('baik', kesan.nota || 'Pemain buat baik');
-    } else if (kesan.kasihSayang < 0) {
-      this.rekodMemori('buruk', kesan.nota || 'Pemain buat buruk');
-    }
-    return this.dapatDialog(kesan);
-  };
-  
   aiPasangan.updateMood = function(nilai) {
     this.mood = Math.max(0, Math.min(100, this.mood + nilai));
   };
   
   aiPasangan.updateKasihSayang = function(nilai) {
     this.kasihSayang = Math.max(0, Math.min(100, this.kasihSayang + nilai));
+  };
+  
+  aiPasangan.updateKomunikasi = function(nilai) {
+    this.komunikasi = Math.max(0, Math.min(100, this.komunikasi + nilai));
+  };
+  
+  aiPasangan.updateKepercayaan = function(nilai) {
+    this.kepercayaan = Math.max(0, Math.min(100, this.kepercayaan + nilai));
+  };
+  
+  aiPasangan.updateMoodDiri = function(nilai) {
+    this.moodDiri = Math.max(0, Math.min(100, this.moodDiri + nilai));
   };
   
   aiPasangan.rekodMemori = function(jenis, nota) {
@@ -322,41 +309,6 @@ function initAIMethods() {
     if (this.mood >= 10) return '😞 Sedih';
     return '😡 Marah';
   };
-}
-
-function tunjukHari() {
-  const hari = gameState.hari;
-  const sesi = gameState.sesi;
-  
-  document.getElementById('stat-hari').textContent = `Hari ${hari}`;
-  document.getElementById('stat-duit').textContent = `💰 RM ${dapatDuit().toLocaleString()}`;
-  
-  updateProgressBar();
-  
-  const sceneHari = bab1Baru[hari];
-  if (!sceneHari) {
-    tunjukEndingBab1();
-    return;
-  }
-  
-  const scene = sceneHari.sesi[sesi];
-  if (!scene) {
-    tunjukEndingBab1();
-    return;
-  }
-  
-  document.getElementById('narasi').textContent = gantiNama(scene.situasi);
-  document.getElementById('dialog').textContent = gantiNama(scene.dialog);
-  
-  const pilihanDiv = document.getElementById('pilihan');
-  pilihanDiv.innerHTML = '';
-  
-  scene.pilihan.forEach(p => {
-    const btn = document.createElement('button');
-    btn.textContent = gantiNama(p.teks);
-    btn.onclick = () => pilihPilihan(p);
-    pilihanDiv.appendChild(btn);
-  });
 }
 
 // Jalankan menu bila page load

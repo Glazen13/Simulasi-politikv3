@@ -13,20 +13,20 @@
 <body>
   <div id="app">
 
-    <!-- SKRIN 1: TAJUK -->
-    <div id="skrin-tajuk" class="skrin active">
-      <div class="tajuk-hero">
-        <div class="tajuk-ikon">🌙</div>
-        <h1 class="tajuk-utama">Hingga ke Jannah</h1>
-        <p class="subtitle">Simulasi Kehidupan Suami Isteri</p>
-        <div class="divider"></div>
-        <p class="tagline">"Setiap pilihan, satu perjalanan."</p>
-      </div>
-      <button class="btn-utama" onclick="mulaSetup()">
-        <span>Mula Perjalanan</span>
-        <span class="btn-arrow">→</span>
-      </button>
-    </div>
+   <!-- SKRIN 1: TAJUK -->
+<div id="skrin-tajuk" class="skrin active">
+  <div class="tajuk-hero">
+    <div class="tajuk-ikon">🌙</div>
+    <h1 class="tajuk-utama">Hingga ke Jannah</h1>
+    <p class="subtitle">Simulasi Kehidupan Suami Isteri</p>
+    <div class="divider"></div>
+    <p class="tagline">"Setiap pilihan, satu perjalanan."</p>
+  </div>
+  
+  <div id="menu-tajuk" class="menu-tajuk">
+    <!-- Butang akan dijana oleh JS -->
+  </div>
+</div>
 
     <!-- SKRIN 2: PILIH MOD -->
     <div id="skrin-mod" class="skrin">
@@ -201,6 +201,15 @@
       
       <div class="header-main">
         <div class="header-atas">
+    <div class="header-atas">
+      <span id="stat-hari" class="hari-badge">Hari 1</span>
+      <span id="stat-tenaga" class="tenaga-badge">⚡ 3/3</span>
+    </div>
+    <div class="header-bawah">
+      <span id="stat-duit" class="duit-badge">💰 RM 0</span>
+      <button class="btn-reset" onclick="resetSave()" title="Reset">🔄</button>
+    </div>
+  </div>
           <span id="stat-hari" class="hari-badge">Hari 1</span>
           <span id="stat-tenaga" class="tenaga-badge">⚡ 3/3</span>
         </div>
@@ -243,7 +252,8 @@
   <script src="data/bab1.js"></script>
   <script src="data/ekonomi.js"></script>
   <script src="data/ai.js"></script>
-  <script src="data/ending.js"></script>
+ <script src="data/ending.js"></script>
+  <script src="data/save.js"></script>
   <script src="game.js"></script>
 </body>
 </html>

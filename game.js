@@ -302,6 +302,185 @@ function initAIMethods() {
   };
 }
 
+// ============================================
+// GAME UTAMA — BAHAGIAN KEWANGAN
+// ============================================
+
+let game = {
+  hari: 1,
+  tenaga: 3,
+  tenagaMax: 3,
+  kasihSayang: 70,
+  mood: "Gembira",
+  mod: "suami",
+  namaPemain: "",
+  panggilanPemain: "",
+  namaPasangan: "",
+  panggilanPasangan: "",
+  personaliti: "manja",
+  titikMula: "A"
+};
+
+// ============================================
+// MULA GAME
+// ============================================
+
+function mulaGame() {
+  // Ambil setup
+  loadSetup();
+  loadEkonomi();
+  
+  // Set duit awal
+  ekonomi.duit = setupKewangan.simpananTunai + setupKewangan.simpananASB;
+  
+  // Set hari
+  ekonomi.hariSemasa = 1;
+  ekonomi.tarikh = 1;
+  ekonomi.hariDalamMinggu = "Isnin";
+  
+  // Tunjuk game
+  tunjukGame();
+  tunjukHari();
+}
+
+// ============================================
+// TUNJUK HARI
+// ============================================
+
+function tunjukHari() {
+  // Proses kewangan harian
+  let hasil = prosesHarian();
+  
+  // Update UI
+  document.getElementById("hari").textContent = "Hari " + ekonomi.hariSemasa + " (" + ekonomi.tarikh + "hb)";
+  document.getElementById("duit").textContent = "RM " + formatDuit(ekonomi.duit);
+  document.getElementById("tenaga").textContent = game.tenaga + "/" + game.tenagaMax;
+  document.getElementById("kasihSayang").textContent = game.kasihSayang;
+  document.getElementById("mood").textContent = game.mood;
+  
+  // Tunjuk log
+  tunjukLog(hasil.log);
+  
+  // Semak kritikal
+  let kritikal = semakKritikal();
+  if (kritikal) {
+    tunjukAlert(kritikal);
+  }
+}
+
+// ============================================
+// FORMAT DUIT
+// ============================================
+
+function formatDuit(jumlah) {
+  return jumlah.toLocaleString('ms-MY');
+}
+
+// ============================================
+// TUNJUK LOG
+// ============================================
+
+function tunjukLog(log) {
+  let html = "";
+  log.forEach(function(item) {
+    html += "<div class='log-item'>" + item + "</div>";
+  });
+  document.getElementById("log").innerHTML = html;
+}
+
+// ============================================
+// TUNJUK ALERT
+// ============================================
+
+function tunjukAlert(kritikal) {
+  let html = "<div class='alert alert-" + kritikal.tahap + "'>";
+  html += "<p>" + kritikal.mesej + "</p>";
+  html += "<div class='alert-option'>";
+  kritikal.option.forEach(function(opt) {
+    html += "<button onclick='pilihOption(\"" + opt + "\")'>" + opt + "</button>";
+  });
+  html += "</div></div>";
+  document.getElementById("alert").innerHTML = html;
+}
+
+// ============================================
+// PILIH OPTION KEWANGAN
+// ============================================
+
+function pilihOption(opt) {
+  if (opt === "side_income") {
+    tunjukSideIncome();
+  } else if (opt === "pinjam") {
+    tunjukPinjam();
+  } else if (opt === "jual_barang") {
+    tunjukJualBarang();
+  } else if (opt === "jimat") {
+    tukarGayaHidup("jimat");
+  }
+}
+
+// ============================================
+// SIDE INCOME
+// ============================================
+
+function tunjukSideIncome() {
+  let html = "<div class='modal'>";
+  html += "<h3>💼 Cari Side Income</h3>";
+  html += "<button onclick='buatGrab()'>Grab (+RM 40, -1 tenaga)</button>";
+  html += "<button onclick='buatFreelance()'>Freelance (+RM 300, -2 tenaga)</button>";
+  html += "<button onclick='tutupModal()'>Tutup</button>";
+  html += "</div>";
+  document.getElementById("modal").innerHTML = html;
+}
+
+function buatGrab() {
+  if (game.tenaga >= 1) {
+    game.tenaga -= 1;
+    tambahDuit(40, "Grab");
+    tutupModal();
+    tunjukHari();
+  }
+}
+
+function buatFreelance() {
+  if (game.tenaga >= 2) {
+    game.tenaga -= 2;
+    tambahDuit(300, "Freelance");
+    tutupModal();
+    tunjukHari();
+  }
+}
+
+// ============================================
+// TUKAR GAYA HIDUP
+// ============================================
+
+function tukarGayaHidup(gaya) {
+  setupKewangan.gayaHidup = gaya;
+  simpanSetup();
+  tutupModal();
+  tunjukHari();
+}
+
+// ============================================
+// TUTUP MODAL
+// ============================================
+
+function tutupModal() {
+  document.getElementById("modal").innerHTML = "";
+}
+
+// ============================================
+// HARI SETERUSNYA
+// ============================================
+
+function hariSeterusnya() {
+  game.hari++;
+  game.tenaga = game.tenagaMax;
+  simpanEkonomi();
+  tunjukHari();
+}
+
 // Jalankan menu bila page load
 window.addEventListener('DOMContentLoaded', () => {
   janaMenuTajuk();

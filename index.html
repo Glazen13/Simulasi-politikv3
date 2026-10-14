@@ -23,7 +23,13 @@
         <p class="tagline">"Setiap pilihan, satu perjalanan."</p>
       </div>
       <div id="menu-tajuk" class="menu-tajuk">
-        <!-- Butang dijana oleh JS -->
+        <button class="btn-utama" onclick="mulaBaru()">
+          <span>Mula Baru</span>
+          <span class="btn-arrow">→</span>
+        </button>
+        <button class="btn-sekunder" onclick="sambungGame()" id="btn-sambung" style="display:none;">
+          <span>Sambung Game</span>
+        </button>
       </div>
     </div>
 
@@ -166,9 +172,7 @@
       </div>
     </div>
 
-    <!-- ============================================ -->
-    <!-- SKRIN 6: KEWANGAN (PENUH - BARU) -->
-    <!-- ============================================ -->
+    <!-- SKRIN 6: KEWANGAN -->
     <div id="skrin-kewangan" class="skrin">
       <div class="header-skrin">
         <span class="step">Langkah 5 / 6</span>
@@ -176,7 +180,6 @@
         <p class="sub-skrin">Isi detail. Boleh ubah nanti.</p>
       </div>
 
-      <!-- PENDAPATAN -->
       <div class="section-kewangan">
         <h3 class="section-tajuk">👤 Pendapatan</h3>
         <div class="form-group">
@@ -193,7 +196,6 @@
         </div>
       </div>
 
-      <!-- SIMPANAN -->
       <div class="section-kewangan">
         <h3 class="section-tajuk">💵 Simpanan</h3>
         <div class="form-group">
@@ -206,7 +208,6 @@
         </div>
       </div>
 
-      <!-- KOMITMEN -->
       <div class="section-kewangan">
         <h3 class="section-tajuk">📋 Komitmen Bulanan</h3>
         <p class="section-note">Sewa, bil, loan, dll.</p>
@@ -214,7 +215,6 @@
         <button class="btn-tambah" onclick="tambahKomitmen()">+ Tambah Komitmen</button>
       </div>
 
-      <!-- HUTANG -->
       <div class="section-kewangan">
         <h3 class="section-tajuk">💳 Hutang</h3>
         <p class="section-note">PTPTN, kad kredit, dll.</p>
@@ -222,7 +222,6 @@
         <button class="btn-tambah" onclick="tambahHutang()">+ Tambah Hutang</button>
       </div>
 
-      <!-- GAYA HIDUP -->
       <div class="section-kewangan">
         <h3 class="section-tajuk">🏠 Gaya Hidup</h3>
         <div class="form-group">
@@ -247,7 +246,8 @@
       <div class="header-main">
         <div class="header-atas">
           <span id="stat-hari" class="hari-badge">Hari 1</span>
-          <span id="stat-tenaga" class="tenaga-badge">⚡ 3/3</span>
+          <span id="stat-sesi" class="sesi-badge">🌅 Pagi</span>
+          <span id="stat-tenaga" class="tenaga-badge">⚡ 4/4</span>
         </div>
         <div class="header-bawah">
           <span id="stat-duit" class="duit-badge">💰 RM 0</span>
@@ -284,13 +284,31 @@
 
     </div>
 
+    <!-- SKRIN 8: REPORT MINGGUAN -->
+    <div id="skrin-report" class="skrin">
+      <div class="header-skrin">
+        <span class="step">📊 Report</span>
+        <h2 id="report-tajuk">Report Minggu 1</h2>
+      </div>
+      <div id="report-kandungan"></div>
+      <button class="btn-utama" onclick="teruskanSelepasReport()">
+        <span>Teruskan</span>
+        <span class="btn-arrow">→</span>
+      </button>
+    </div>
+
+    <!-- SKRIN 9: ENDING -->
+    <div id="skrin-ending" class="skrin">
+      <div id="ending-kandungan"></div>
+    </div>
+
   </div>
 
   <script src="data/setup.js"></script>
-  <script src="data/bab1.js"></script>
   <script src="data/kewangan.js"></script>
   <script src="data/ekonomi.js"></script>
   <script src="data/ai.js"></script>
+  <script src="data/bab1.js"></script>
   <script src="data/ending.js"></script>
   <script src="data/save.js"></script>
   <script src="game.js"></script>

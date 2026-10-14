@@ -7,15 +7,26 @@ let sceneSemasa = null;
 // ================================
 // PROGRESS BAR
 // ================================
-
 function updateProgressBar() {
-  const kasih = aiPasangan.kasihSayang;
-  document.getElementById('bar-kasih').style.width = kasih + '%';
-  document.getElementById('stat-kasih').textContent = kasih;
+  // Kasih sayang
+  document.getElementById('bar-kasih').style.width = aiPasangan.kasihSayang + '%';
+  document.getElementById('stat-kasih').textContent = aiPasangan.kasihSayang;
   
-  const mood = aiPasangan.mood;
-  document.getElementById('bar-mood').style.width = mood + '%';
-  document.getElementById('stat-mood').textContent = aiPasangan.labelMood();
+  // Komunikasi
+  document.getElementById('bar-komunikasi').style.width = aiPasangan.komunikasi + '%';
+  document.getElementById('stat-komunikasi').textContent = aiPasangan.komunikasi;
+  
+  // Kepercayaan
+  document.getElementById('bar-kepercayaan').style.width = aiPasangan.kepercayaan + '%';
+  document.getElementById('stat-kepercayaan').textContent = aiPasangan.kepercayaan;
+  
+  // Mood diri
+  document.getElementById('bar-mood-diri').style.width = aiPasangan.moodDiri + '%';
+  document.getElementById('stat-mood-diri').textContent = aiPasangan.moodDiri;
+  
+  // Mood AI
+  document.getElementById('bar-mood-ai').style.width = aiPasangan.mood + '%';
+  document.getElementById('stat-mood-ai').textContent = '🙂 Mood AI: ' + aiPasangan.labelMood();
 }
 
 // ================================
@@ -94,28 +105,39 @@ function tunjukScene(scene) {
 function pilihPilihan(pilihan) {
   const kesan = pilihan.kesan;
   
-  if (kesan.kasihSayang) aiPasangan.updateKasihSayang(kesan.kasihSayang);
-  if (kesan.mood) aiPasangan.updateMood(kesan.mood);
+  if (kesan.kasih) aiPasangan.updateKasihSayang(kesan.kasih);
+  if (kesan.komunikasi) aiPasangan.updateKomunikasi(kesan.komunikasi);
+  if (kesan.kepercayaan) aiPasangan.updateKepercayaan(kesan.kepercayaan);
+  if (kesan.mood_diri) aiPasangan.updateMoodDiri(kesan.mood_diri);
+  if (kesan.mood_ai) aiPasangan.updateMood(kesan.mood_ai === 'Gembira' ? 10 : kesan.mood_ai === 'Sejuk' ? -10 : 0);
   if (kesan.duit) tambahDuit(kesan.duit);
-  if (kesan.nota) aiPasangan.rekodMemori(kesan.kasihSayang >= 0 ? 'baik' : 'buruk', kesan.nota);
+  if (kesan.memori) aiPasangan.rekodMemori(kesan.memori, pilihan.teks);
   
   if (pilihan.reaksi) {
-    const reaksi = pilihan.reaksi[Math.floor(Math.random() * pilihan.reaksi.length)];
-    document.getElementById('dialog').textContent = gantiNama(reaksi);
+    document.getElementById('dialog').textContent = gantiNama(pilihan.reaksi);
   }
   
   updateProgressBar();
   document.getElementById('stat-duit').textContent = `💰 RM ${dapatDuit().toLocaleString()}`;
   
-  // AUTO-SAVE selepas pilihan
   simpanGame();
   
+  // Sesi seterusnya
   const pilihanDiv = document.getElementById('pilihan');
   pilihanDiv.innerHTML = '';
   const btn = document.createElement('button');
-  btn.textContent = '→ Hari Seterusnya';
-  btn.onclick = hariSeterusnya;
+  btn.textContent = '→ Sesi Seterusnya';
+  btn.onclick = sesiSeterusnya;
   pilihanDiv.appendChild(btn);
+}
+
+function sesiSeterusnya() {
+  gameState.sesi++;
+  if (gameState.sesi >= 4) {
+    gameState.sesi = 0;
+    gameState.hari++;
+  }
+  tunjukHari();
 }
 
 // ================================

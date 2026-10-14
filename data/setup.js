@@ -12,10 +12,12 @@ let gameState = {
   titikMula: null,
   kewangan: {},
   hari: 1,
-  tenagaAksi: 3,
-  tenagaMax: 3,
+  sesi: 0,              // ← BARU: 0=pagi, 1=tengahari, 2=petang, 3=malam
   kasihSayang: 50,
-  mood: 50,
+  komunikasi: 50,       // ← BARU
+  kepercayaan: 50,      // ← BARU
+  moodDiri: 50,         // ← BARU
+  moodAI: 70,           // ← BARU
   memori: [],
   history: []
 };

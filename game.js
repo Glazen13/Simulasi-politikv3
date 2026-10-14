@@ -107,6 +107,9 @@ function pilihPilihan(pilihan) {
   updateProgressBar();
   document.getElementById('stat-duit').textContent = `💰 RM ${dapatDuit().toLocaleString()}`;
   
+  // AUTO-SAVE selepas pilihan
+  simpanGame();
+  
   const pilihanDiv = document.getElementById('pilihan');
   pilihanDiv.innerHTML = '';
   const btn = document.createElement('button');
@@ -169,6 +172,10 @@ function tunjukMiniEvent(scene) {
 function hariSeterusnya() {
   gameState.hari++;
   gameState.tenagaAksi = gameState.tenagaMax;
+  
+  // AUTO-SAVE selepas hari baru
+  simpanGame();
+  
   tunjukHari();
 }
 
@@ -193,3 +200,109 @@ function tunjukEndingBab1() {
   btn.onclick = () => location.reload();
   pilihanDiv.appendChild(btn);
 }
+// ================================
+// MENU TAJUK
+// ================================
+
+function janaMenuTajuk() {
+  const menu = document.getElementById('menu-tajuk');
+  menu.innerHTML = '';
+  
+  const infoSave = dapatkanInfoSave();
+  
+  if (infoSave) {
+    // Ada save — tunjuk butang Sambung
+    const btnSambung = document.createElement('button');
+    btnSambung.className = 'btn-utama';
+    btnSambung.innerHTML = `<span>▶ Sambung</span><span class="btn-arrow">→</span>`;
+    btnSambung.onclick = sambungGame;
+    menu.appendChild(btnSambung);
+    
+    // Info save
+    const info = document.createElement('div');
+    info.className = 'info-save';
+    const tarikh = new Date(infoSave.timestamp).toLocaleDateString('ms-MY');
+    info.textContent = `${infoSave.namaPemain} • Hari ${infoSave.hari} • ${tarikh}`;
+    menu.appendChild(info);
+    
+    // Butang Main Baru
+    const btnBaru = document.createElement('button');
+    btnBaru.className = 'btn-sekunder';
+    btnBaru.textContent = '🆕 Main Baru';
+    btnBaru.onclick = mainBaru;
+    menu.appendChild(btnBaru);
+  } else {
+    // Takde save — tunjuk butang Mula
+    const btnMula = document.createElement('button');
+    btnMula.className = 'btn-utama';
+    btnMula.innerHTML = `<span>Mula Perjalanan</span><span class="btn-arrow">→</span>`;
+    btnMula.onclick = mulaSetup;
+    menu.appendChild(btnMula);
+  }
+}
+
+function sambungGame() {
+  if (loadGame()) {
+    // Re-init AI methods
+    initAIMethods();
+    tukarSkrin('skrin-main');
+    tunjukHari();
+  } else {
+    alert('Gagal load game. Cuba main baru.');
+    mainBaru();
+  }
+}
+
+function mainBaru() {
+  if (adaSave()) {
+    if (!confirm('Main baru akan hapus save lama. Teruskan?')) {
+      return;
+    }
+  }
+  localStorage.removeItem(SAVE_KEY);
+  mulaSetup();
+}
+
+function initAIMethods() {
+  // Pastikan method AI wujud selepas load
+  aiPasangan.reaksi = function(pilihan, kesan) {
+    this.updateMood(kesan.mood || 0);
+    this.updateKasihSayang(kesan.kasihSayang || 0);
+    if (kesan.kasihSayang > 0) {
+      this.rekodMemori('baik', kesan.nota || 'Pemain buat baik');
+    } else if (kesan.kasihSayang < 0) {
+      this.rekodMemori('buruk', kesan.nota || 'Pemain buat buruk');
+    }
+    return this.dapatDialog(kesan);
+  };
+  
+  aiPasangan.updateMood = function(nilai) {
+    this.mood = Math.max(0, Math.min(100, this.mood + nilai));
+  };
+  
+  aiPasangan.updateKasihSayang = function(nilai) {
+    this.kasihSayang = Math.max(0, Math.min(100, this.kasihSayang + nilai));
+  };
+  
+  aiPasangan.rekodMemori = function(jenis, nota) {
+    const rekod = { hari: gameState.hari, nota: nota };
+    if (jenis === 'baik') {
+      this.memoriBaik.push(rekod);
+    } else {
+      this.memoriBuruk.push(rekod);
+    }
+  };
+  
+  aiPasangan.labelMood = function() {
+    if (this.mood >= 80) return '😍 Gembira';
+    if (this.mood >= 50) return '🙂 Neutral';
+    if (this.mood >= 30) return '😐 Sejuk';
+    if (this.mood >= 10) return '😞 Sedih';
+    return '😡 Marah';
+  };
+}
+
+// Jalankan menu bila page load
+window.addEventListener('DOMContentLoaded', () => {
+  janaMenuTajuk();
+});

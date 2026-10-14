@@ -553,3 +553,121 @@ input::placeholder {
   justify-content: center;
   align-items: center;
 }
+/* ============================================ */
+/* SECTION KEWANGAN */
+/* ============================================ */
+
+.section-kewangan {
+  background: #f9f9ff;
+  border-radius: 12px;
+  padding: 15px;
+  margin: 15px 0;
+  border-left: 4px solid #764ba2;
+}
+
+.section-tajuk {
+  font-size: 16px;
+  font-weight: 600;
+  color: #764ba2;
+  margin-bottom: 10px;
+}
+
+.section-note {
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 10px;
+}
+
+/* ============================================ */
+/* KOMITMEN & HUTANG ROW */
+/* ============================================ */
+
+.komitmen-row,
+.hutang-row {
+  background: white;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.komitmen-row input,
+.hutang-row input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  margin: 0;
+}
+
+.btn-hapus {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 50%;
+  background: #ff4444;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+}
+
+/* ============================================ */
+/* BUTANG TAMBAH */
+/* ============================================ */
+
+.btn-tambah {
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: 2px dashed #764ba2;
+  color: #764ba2;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+.btn-tambah:active {
+  background: #f0ebff;
+}
+
+/* ============================================ */
+/* LOG KEWANGAN */
+/* ============================================ */
+
+.log-kewangan {
+  background: #f5f5f5;
+  border-radius: 10px;
+  padding: 12px;
+  margin: 15px 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.log-item {
+  padding: 4px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.log-item:last-child {
+  border-bottom: none;
+}
+
+.log-masuk {
+  color: #2e7d32;
+  font-weight: 500;
+}
+
+.log-keluar {
+  color: #c62828;
+  font-weight: 500;
+}

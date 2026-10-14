@@ -483,3 +483,73 @@ input::placeholder {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary-light);
 }
+/* ================================
+   MENU TAJUK
+   ================================ */
+
+.menu-tajuk {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.btn-sekunder {
+  padding: 14px 24px;
+  font-size: 0.95em;
+  font-weight: 500;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  color: var(--text);
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-sekunder:hover {
+  border-color: var(--primary);
+  background: #fafafe;
+  transform: translateY(-2px);
+}
+
+.btn-sekunder:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.info-save {
+  font-size: 0.8em;
+  color: var(--text-light);
+  text-align: center;
+  margin-top: -5px;
+  font-style: italic;
+}
+
+/* BUTANG RESET */
+.btn-reset {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.9em;
+  margin-left: 10px;
+  transition: var(--transition);
+}
+
+.btn-reset:hover {
+  background: rgba(255,255,255,0.35);
+  transform: rotate(180deg);
+}
+
+.header-bawah {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

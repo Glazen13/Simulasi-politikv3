@@ -1,6 +1,26 @@
-// Game utama
+// ================================
+// HINGGA KE JANNAH — GAME
+// ================================
 
 let sceneSemasa = null;
+
+// ================================
+// PROGRESS BAR
+// ================================
+
+function updateProgressBar() {
+  const kasih = aiPasangan.kasihSayang;
+  document.getElementById('bar-kasih').style.width = kasih + '%';
+  document.getElementById('stat-kasih').textContent = kasih;
+  
+  const mood = aiPasangan.mood;
+  document.getElementById('bar-mood').style.width = mood + '%';
+  document.getElementById('stat-mood').textContent = aiPasangan.labelMood();
+}
+
+// ================================
+// MULA MAIN
+// ================================
 
 function mulaMain() {
   tukarSkrin('skrin-main');
@@ -10,21 +30,21 @@ function mulaMain() {
   tunjukHari();
 }
 
+// ================================
+// TUNJUK HARI
+// ================================
+
 function tunjukHari() {
   const hari = gameState.hari;
   const scene = bab1[hari];
   
-  // Update header
   document.getElementById('stat-hari').textContent = `Hari ${hari}`;
   document.getElementById('stat-tenaga').textContent = `⚡ ${gameState.tenagaAksi}/${gameState.tenagaMax}`;
   document.getElementById('stat-duit').textContent = `💰 RM ${dapatDuit().toLocaleString()}`;
   
-  // Update footer
-  document.getElementById('stat-kasih').textContent = `❤️ ${aiPasangan.kasihSayang}`;
-  document.getElementById('stat-mood').textContent = aiPasangan.labelMood();
+  updateProgressBar();
   
   if (!scene) {
-    // Habis Bab 1
     tunjukEndingBab1();
     return;
   }
@@ -38,11 +58,19 @@ function tunjukHari() {
   }
 }
 
+// ================================
+// GANTI NAMA
+// ================================
+
 function gantiNama(teks) {
   return teks
     .replace(/{pemain}/g, gameState.panggilanPemain)
     .replace(/{pasangan}/g, gameState.panggilanPasangan);
 }
+
+// ================================
+// TUNJUK SCENE
+// ================================
 
 function tunjukScene(scene) {
   document.getElementById('narasi').textContent = gantiNama(scene.narasi);
@@ -51,7 +79,7 @@ function tunjukScene(scene) {
   const pilihanDiv = document.getElementById('pilihan');
   pilihanDiv.innerHTML = '';
   
-  scene.pilihan.forEach((p, index) => {
+  scene.pilihan.forEach((p) => {
     const btn = document.createElement('button');
     btn.textContent = gantiNama(p.teks);
     btn.onclick = () => pilihPilihan(p);
@@ -59,8 +87,11 @@ function tunjukScene(scene) {
   });
 }
 
+// ================================
+// PILIH PILIHAN
+// ================================
+
 function pilihPilihan(pilihan) {
-  // Apply kesan
   const kesan = pilihan.kesan;
   
   if (kesan.kasihSayang) aiPasangan.updateKasihSayang(kesan.kasihSayang);
@@ -68,18 +99,14 @@ function pilihPilihan(pilihan) {
   if (kesan.duit) tambahDuit(kesan.duit);
   if (kesan.nota) aiPasangan.rekodMemori(kesan.kasihSayang >= 0 ? 'baik' : 'buruk', kesan.nota);
   
-  // Tunjuk reaksi
   if (pilihan.reaksi) {
     const reaksi = pilihan.reaksi[Math.floor(Math.random() * pilihan.reaksi.length)];
     document.getElementById('dialog').textContent = gantiNama(reaksi);
   }
   
-  // Update footer
-  document.getElementById('stat-kasih').textContent = `❤️ ${aiPasangan.kasihSayang}`;
-  document.getElementById('stat-mood').textContent = aiPasangan.labelMood();
+  updateProgressBar();
   document.getElementById('stat-duit').textContent = `💰 RM ${dapatDuit().toLocaleString()}`;
   
-  // Butang seterusnya
   const pilihanDiv = document.getElementById('pilihan');
   pilihanDiv.innerHTML = '';
   const btn = document.createElement('button');
@@ -87,6 +114,10 @@ function pilihPilihan(pilihan) {
   btn.onclick = hariSeterusnya;
   pilihanDiv.appendChild(btn);
 }
+
+// ================================
+// RINGKASAN
+// ================================
 
 function tunjukRingkasan(scene) {
   const ekonomi = kiraHarian();
@@ -108,8 +139,13 @@ function tunjukRingkasan(scene) {
   btn.onclick = hariSeterusnya;
   pilihanDiv.appendChild(btn);
   
+  updateProgressBar();
   document.getElementById('stat-duit').textContent = `💰 RM ${dapatDuit().toLocaleString()}`;
 }
+
+// ================================
+// MINI EVENT
+// ================================
 
 function tunjukMiniEvent(scene) {
   document.getElementById('narasi').textContent = `📱 Mesej`;
@@ -126,11 +162,19 @@ function tunjukMiniEvent(scene) {
   });
 }
 
+// ================================
+// HARI SETERUSNYA
+// ================================
+
 function hariSeterusnya() {
   gameState.hari++;
   gameState.tenagaAksi = gameState.tenagaMax;
   tunjukHari();
 }
+
+// ================================
+// ENDING BAB 1
+// ================================
 
 function tunjukEndingBab1() {
   document.getElementById('narasi').textContent = '📖 Bab 1 Tamat';

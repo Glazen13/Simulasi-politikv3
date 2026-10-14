@@ -3,22 +3,11 @@ let aiPasangan = {
   personaliti: null,
   mood: 70,
   kasihSayang: 50,
+  komunikasi: 50,
+  kepercayaan: 50,
+  moodDiri: 50,
   memoriBaik: [],
   memoriBuruk: [],
-  
-  // Reaksi ikut personaliti
-  reaksi: function(pilihan, kesan) {
-    this.updateMood(kesan.mood || 0);
-    this.updateKasihSayang(kesan.kasihSayang || 0);
-    
-    if (kesan.kasihSayang > 0) {
-      this.rekodMemori('baik', kesan.nota || 'Pemain buat baik');
-    } else if (kesan.kasihSayang < 0) {
-      this.rekodMemori('buruk', kesan.nota || 'Pemain buat buruk');
-    }
-    
-    return this.dapatDialog(kesan);
-  },
   
   updateMood: function(nilai) {
     this.mood = Math.max(0, Math.min(100, this.mood + nilai));
@@ -26,6 +15,18 @@ let aiPasangan = {
   
   updateKasihSayang: function(nilai) {
     this.kasihSayang = Math.max(0, Math.min(100, this.kasihSayang + nilai));
+  },
+  
+  updateKomunikasi: function(nilai) {
+    this.komunikasi = Math.max(0, Math.min(100, this.komunikasi + nilai));
+  },
+  
+  updateKepercayaan: function(nilai) {
+    this.kepercayaan = Math.max(0, Math.min(100, this.kepercayaan + nilai));
+  },
+  
+  updateMoodDiri: function(nilai) {
+    this.moodDiri = Math.max(0, Math.min(100, this.moodDiri + nilai));
   },
   
   rekodMemori: function(jenis, nota) {
@@ -37,12 +38,6 @@ let aiPasangan = {
     }
   },
   
-  dapatDialog: function(kesan) {
-    // Dialog default — akan override oleh scene
-    return kesan.dialog || '';
-  },
-  
-  // Dapat label mood
   labelMood: function() {
     if (this.mood >= 80) return '😍 Gembira';
     if (this.mood >= 50) return '🙂 Neutral';
@@ -56,6 +51,9 @@ function initAI() {
   aiPasangan.personaliti = gameState.personaliti;
   aiPasangan.mood = 70;
   aiPasangan.kasihSayang = 50;
+  aiPasangan.komunikasi = 50;
+  aiPasangan.kepercayaan = 50;
+  aiPasangan.moodDiri = 50;
   aiPasangan.memoriBaik = [];
   aiPasangan.memoriBuruk = [];
 }
